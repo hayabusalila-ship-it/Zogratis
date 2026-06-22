@@ -1,0 +1,37 @@
+--[[
+    Script Name: HitboxModifier.lua
+    Description: Adjusts character hitbox for testing/development.
+    License: MIT
+    Author: [Your Username]
+]]
+
+local HitboxService = {}
+
+function HitboxService.SetSpeed(humanoid, speed)
+    if humanoid then
+        humanoid.WalkSpeed = speed
+    end
+end
+
+function HitboxService.ExpandHitbox(character, size)
+    local hrp = character:FindFirstChild("HumanoidRootPart")
+    if not hrp then return end
+    
+    local hitbox = Instance.new("Part")
+    hitbox.Name = "ExpandedHitbox"
+    hitbox.Size = size
+    hitbox.Transparency = 0.8
+    hitbox.CanCollide = false
+    hitbox.Anchored = false
+    hitbox.Parent = character
+    
+    local weld = Instance.new("WeldConstraint")
+    weld.Part0 = hrp
+    weld.Part1 = hitbox
+    weld.Parent = hitbox
+    
+    hitbox.CFrame = hrp.CFrame
+end
+
+return HitboxService
+
